@@ -9,71 +9,80 @@
 import UIKit
 
 class WeatherViewController: UIViewController {
-
+    
+    // MARK: - Property
+    
+    //instance of the WeatherService class
+    private let weather = WeatherService()
+    
+    // MARK: - Outlets
     
     @IBOutlet var destination: [UITextField]!
     @IBOutlet var iconWeather: [UIImageView]!
     @IBOutlet weak var weatherActivityIndicator: UIActivityIndicatorView!
-   
-    
     @IBOutlet var descriptionWeather: [UILabel]!
-    // @IBOutlet var info: [UIStackView]!
     @IBOutlet var forecastButton: UIButton!
     @IBOutlet var info: [UIStackView]!
     @IBOutlet var temp: [UILabel]!
     @IBOutlet var wind: [UILabel]!
     
-    var weather = WeatherService() // Stock the instance of the WeatherService class
+    // MARK: - View life cycle, update weather for New-York and Strasbourg
     
     override func viewDidLoad() {
-      
+        updateWeather()
     }
     
-    // Removes the keyboard and stores the text entered in the destination variable
-    @IBAction func dismissKeyboard(_ sender: UITapGestureRecognizer) {
-        destination[0].resignFirstResponder()
-        destination[1].resignFirstResponder()
-    }
+    // MARK: - Action to tap on the button to show forecast
     
-    // Manages the data received by the API
     @IBAction func didTapeWeatherForecastButton(_ sender: Any) {
+        updateWeather()
+    }
+    
+    // MARK: - Methods
+    
+    // method to get data with the API
+    func updateWeather() {
         defaultSetting()
-        
-       // ActivityIndicator(button: forecastButton, activityIndicator: weatherActivityIndicator)
-        
         for i in 0...1 {
             weather.getWeather(city: destination[i].text!) { (success, weather) in
-                if success == true {
-                    self.refreshScreen(weather: weather!, index: i)
-                } else if success == false {
+                if success {
+                    self.displayScreen(weather: weather!, index: i)
+                } else {
                     self.alert(title: "Erreur", message: "Une erreur est survenue vérifier la Ville saisie et la connexion internet")
                 }
             }
         }
-        
-        displayButton(button: forecastButton, activityIndicator: weatherActivityIndicator)
+        activityIndicator(activityIndicator: weatherActivityIndicator, button: forecastButton, showActivityIndicator: false)
     }
     
-    // Default setting
+    // default settings
     private func defaultSetting() {
         if destination[0].text == "" {
             destination[0].text = "New York"
         }else if destination[1].text == "" {
-            destination[1].text = "Paris"
+            destination[1].text = "Strasbourg"
         }
     }
     
-    // Shows weather information
-    private func refreshScreen(weather: WeatherInfo, index: Int) {
+    // display informations
+    private func displayScreen(weather: WeatherInfo, index: Int) {
         info[index].isHidden = false
         temp[index].text = convertToString(value: weather.main.temp) + "°C"
         wind[index].text = convertToString(value: weather.wind.speed) + "km/h"
         descriptionWeather[index].text = weather.weather[0].main
         descriptionWeather[index].isHidden = false
         iconWeather[index].isHidden = false
-       // iconWeather[index].image = WeatherView.icon[weather.weather[0].main]
+        iconWeather[index].image = WeatherView.icon[weather.weather[0].main]
+    }
+}
+
+// MARK: - Extension with action to dismiss keyboard
+
+extension WeatherViewController: UITextFieldDelegate {
+    
+    @IBAction func dismissKeyboard(_ sender: UITapGestureRecognizer) {
+        destination[0].resignFirstResponder()
+        destination[1].resignFirstResponder()
     }
     
 }
-
-

@@ -9,10 +9,11 @@
 import UIKit
 
 class WeatherView: UIView {
-
-    class WeatherView: UIView {
-        // Stock images according to their key
-        static let icon: [String: UIImage] = ["Mist": #imageLiteral(resourceName: "Mist"), "Haze": #imageLiteral(resourceName: "Mist"), "Clouds": #imageLiteral(resourceName: "Cloudy"), "Lighting": #imageLiteral(resourceName: "Lighting"), "Rain": #imageLiteral(resourceName: "Rainy"), "Snow": #imageLiteral(resourceName: "Snow"), "Clear": #imageLiteral(resourceName: "Sunny"), "Fog": #imageLiteral(resourceName: "Mist")]
+    
+    // Stock images with their key
+    
+   static let icon: [String: UIImage] = ["Mist": #imageLiteral(resourceName: "Mist")  , "Haze": #imageLiteral(resourceName: "Fog") , "Clouds":#imageLiteral(resourceName: "Clouds") , "Lighting":#imageLiteral(resourceName: "Lightning") , "Rain":#imageLiteral(resourceName: "Rain") , "Snow": #imageLiteral(resourceName: "Snow"), "Clear":#imageLiteral(resourceName: "Clear"),"Drizzle":#imageLiteral(resourceName: "Drizzle_"),"Fog":#imageLiteral(resourceName: "Haze") ]
+    
 }
 
-}
+

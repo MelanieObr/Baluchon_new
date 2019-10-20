@@ -9,82 +9,111 @@
 import UIKit
 
 class TranslateViewController: UIViewController {
-
-    @IBOutlet weak var text: UITextView!
+    
+    // MARK: - Properties
+    
+    // instance of the TranslateService class
+    private let translateService = TranslateService()
+    // instance of index
+    private var index: Int = 0
+    // instance of type language
+    private var language: Language = .fr
+    
+    // MARK: - Outlets
+    
+    @IBOutlet weak var text: UITextField!
     @IBOutlet weak var translation: UITextView!
-    @IBOutlet weak var UIPicker: UIPickerView!
+    @IBOutlet weak var pickerView: UIPickerView!
     @IBOutlet weak var translateButton: UIButton!
     @IBOutlet weak var translateActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var sourceLanguage: UILabel!
     @IBOutlet weak var languageTranslation: UILabel!
     
-    private var translate = TranslateService() // Stock the instance of the TranslateService class
-    private var index: Int = 0 // Stock index of UIPickerView
+    // MARK: - view life cycle : hide the activity indicator
     
     override func viewDidLoad() {
-        createObserver()
+        activityIndicator(activityIndicator: translateActivityIndicator, button: translateButton, showActivityIndicator: false)
     }
     
-    // Removes the keyboard and stores the text entered in the text variable
-    @IBAction func dismissKeyboard(_ sender: UITapGestureRecognizer) {
-        text.resignFirstResponder()
-    }
+    // MARK: - Actions
     
-    // Manages the data received by the API
+    // action to manages the data received by the API, show activity indicator and hide button
     @IBAction func didTapeTranslateButton(_ sender: Any) {
-        index = UIPicker.selectedRow(inComponent: 0)
-        
+        index = pickerView.selectedRow(inComponent: 0)
         guard text.text != "" else {
-            alert(title: "ERREUR", message: "Aucun texte saisi")
+            alert(title: "Erreur", message: "Aucun texte saisi !")
             return
         }
-        
-        hideButton(button: translateButton, activityIndicator: translateActivityIndicator)
-        translate.translate(Index: index, text: text.text) { (success, translatedText) in
-            if success == true {
+        activityIndicator(activityIndicator: translateActivityIndicator, button: translateButton, showActivityIndicator: true)
+        translateService.translate(language: language, text: text.text!) { (success, translatedText) in
+            if success  {
                 self.refreshScreen(text: translatedText!, textView: self.translation)
             } else {
-                self.alert(title: "Erreur", message: "Erreur reseau")
+                self.alert(title: "Erreur", message: "Erreur réseau !")
             }
         }
-        displayButton(button: translateButton, activityIndicator: translateActivityIndicator)
+        activityIndicator(activityIndicator: translateActivityIndicator, button: translateButton, showActivityIndicator: false)
     }
     
-    // Modify the interface text to match the UIPickerView
+    // MARK: - Methods
+    
+    // method to change the label language to match with the pickerView selected
     private func changeLanguage(index: Int) {
         switch index {
         case 0:
             sourceLanguage.text = "Français"
             languageTranslation.text = "Anglais"
+            language = .fr
         case 1:
             sourceLanguage.text = "Anglais"
             languageTranslation.text = "Français"
+            language = .en
         case 2:
-            sourceLanguage.text = "Detectable"
+            sourceLanguage.text = "Detection"
             languageTranslation.text = "Français"
+            language = .detect
         default:
             break
         }
     }
     
+//    // Method to clear text
+//    func clearText() {
+//        text.text = String()
+//        translation.text = String()
+//    }
 }
 
 extension TranslateViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     
-    // Returns the column number of the UIPickerView
+    // MARK: - Methods pickerView
+    
+    // method to return the number's colum of the UIPickerView
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    // Returns the number of lines in the UIPickerView
+    // method to return the number of lines in the UIPickerView
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return language.count
+        return translateService.language.count
     }
     
-    // Returns the value corresponding to the request line of UIPickerView
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    // method to returns the value corresponding to the pickerView, change color text in white
+    func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         changeLanguage(index: row)
-        return language[row]
+        return NSAttributedString(string: translateService.language[row], attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
     }
 }
+    // MARK: - Outlets
+    
+extension TranslateViewController: UITextFieldDelegate {
+      
+        // dismiss keyboard
+        @IBAction func dismissKeyboard(_ sender: UITapGestureRecognizer) {
+            text.resignFirstResponder()
+        }
+    }
+
+
+
 

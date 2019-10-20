@@ -1,0 +1,43 @@
+{
+    "coord": {
+        "lon": 7.75,
+        "lat": 48.58
+    },
+    "weather": [
+        {
+            "id": 500,
+            "main": "Rain",
+            "description": "light rain",
+            "icon": "10n"
+        }
+    ],
+    "base": "stations",
+    "main": {
+        "temp": 17.3,
+        "pressure": 1004,
+        "humidity": 68,
+        "temp_min": 15.56,
+        "temp_max": 19
+    },
+    "visibility": 10000,
+    "wind": {
+        "speed": 3.1,
+        "deg": 170
+    },
+    "clouds": {
+        "all": 100
+    },
+    "dt": 1569953930,
+    "sys": {
+        "type": 1,
+        "id": 6595,
+        "message": 0.0067,
+        "country": "FR",
+        "sunrise": 1569907657,
+        "sunset": 1569949790
+    },
+    "timezone": 7200,
+    "id": 2973783,
+    "name": "Strasbourg",
+    "cod": 200
+}

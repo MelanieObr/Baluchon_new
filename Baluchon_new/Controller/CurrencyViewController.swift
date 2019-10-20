@@ -9,50 +9,73 @@
 import UIKit
 
 class CurrencyViewController: UIViewController {
-
-    var fromSymbol = "EUR"
-    var toSymbol = "USD"
     
-    //MARK: Outlets
+    // MARK: - Properties
+    
+    let fromSymbol = "EUR"
+    let toSymbol = "USD"
+    private let currencyService = CurrencyService()
+    
+    
+    // MARK: - Outlets
+    
     @IBOutlet weak var currencyTextField: UITextField!
     @IBOutlet weak var currencyResultLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var convertButton: UIButton!
-    // Actions
+    
+    // MARK: - Action and alert to enter value
     @IBAction func tappedConvertButton(_ sender: UIButton) {
-        convert()
-    }
-    @IBAction func dismissKeyboard(_ sender: UITapGestureRecognizer) {
-        
-        currencyTextField.resignFirstResponder()
+        guard currencyTextField.text != "", currencyTextField.text != "," else {
+            alert(title: "Erreur", message: "Entrez un montant !")
+            return
+        }
+        self.convertCurrency()
     }
     
+    // MARK: - View Life cycle
+    // notifications and hide activity indicator
     
-    //MARK: View life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        let tapGesture = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
-        view.addGestureRecognizer(tapGesture)
-        ActivityIndicator.activityIndicator(activityIndicator: activityIndicator, button: convertButton, showActivityIndicator: false)
-        CurrencyService.shared.getCurrency {(currency) in }
+        activityIndicator(activityIndicator: activityIndicator, button: convertButton, showActivityIndicator: false)
     }
     
-    //MARK: Methods
+    // MARK: - Methods
     
-    
-    // Get API data from Model
-    func convert() {
-        CurrencyService.shared.getCurrency {(currency) in
-            if let c = currency, let text = self.currencyTextField.text, let value = Double(text) {
-                let result = c.convert(value: value, from: self.fromSymbol, to: self.toSymbol)
-                self.currencyResultLabel.text = String(result)
+    fileprivate func convertCurrency() {
+        activityIndicator(activityIndicator: activityIndicator, button: convertButton, showActivityIndicator: true)
+        
+        // Recover the amount to convert in the textField
+        let baseAmount = getAmount(textfield: currencyTextField)
+        
+        currencyService.getRate { (success, usdRate) in
+            self.activityIndicator(activityIndicator: self.activityIndicator, button: self.convertButton, showActivityIndicator: false)
+            
+            
+            if success, let usdRate = usdRate {
+                let convertedAmount = baseAmount * usdRate
+                // Convert the amount in string with two decimal numbers
+                let stringAmount = String(format: "%.2f", convertedAmount)
+                self.currencyResultLabel.text = stringAmount
+            } else {
+                // Display an error
+                self.alert(title: "Erreur", message: "Impossible de convertir")
             }
-            
-            
         }
     }
-    private func clear() {
-        currencyTextField.text = ""
-        currencyResultLabel.text = ""
+    
+    func getAmount(textfield: UITextField) -> Double {
+        guard let stringAmount = textfield.text else { return 0.0 }
+        guard let amount = Double(stringAmount) else { return 0.0 }
+        return amount
+    }
+}
+
+// MARK: - Extension dismiss keyboard
+
+extension CurrencyViewController: UITextFieldDelegate {
+    @IBAction func dismissKeyboard(_ sender: UITapGestureRecognizer) {
+        currencyTextField.resignFirstResponder()
     }
 }

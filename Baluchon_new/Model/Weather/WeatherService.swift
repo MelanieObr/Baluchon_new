@@ -31,8 +31,8 @@ final class WeatherService {
         task = weatherSession.dataTask(with: url) { (data, response, error) in
             DispatchQueue.main.async {
                 guard let data = data, error == nil else {
-                callback(.failure(.errorNetwork))
-                                        return
+                    callback(.failure(.errorNetwork))
+                    return
                 }
                 
                 guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {

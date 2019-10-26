@@ -9,9 +9,9 @@
 import UIKit
 
 class TranslateViewController: UIViewController {
-
+    
     // MARK: - Properties
-
+    
     // instance of the TranslateService class
     private let translateService = TranslateService()
     // instance of index
@@ -19,9 +19,9 @@ class TranslateViewController: UIViewController {
     // instance of type language
     private var language: Language = .fr
     
-
+    
     // MARK: - Outlets
-
+    
     @IBOutlet weak var text: UITextField!
     @IBOutlet weak var translation: UITextView!
     @IBOutlet weak var pickerView: UIPickerView!
@@ -29,16 +29,16 @@ class TranslateViewController: UIViewController {
     @IBOutlet weak var translateActivityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var sourceLanguage: UILabel!
     @IBOutlet weak var languageTranslation: UILabel!
-
+    
     // MARK: - view life cycle : hide the activity indicator
-
+    
     override func viewDidLoad() {
         text.textAlignment = .natural
         activityIndicator(activityIndicator: translateActivityIndicator, button: translateButton, showActivityIndicator: false)
     }
-
+    
     // MARK: - Actions
-
+    
     // action to manages the data received by the API, show activity indicator and hide button
     @IBAction func didTapeTranslateButton(_ sender: Any) {
         index = pickerView.selectedRow(inComponent: 0)
@@ -53,15 +53,15 @@ class TranslateViewController: UIViewController {
             case .success(let translatedText):
                 self.refreshScreen(data: translatedText, textView: self.translation)
             case .failure:
-            self.alert(title: "Erreur", message: "Erreur réseau !")
-        }
-        self.activityIndicator(activityIndicator: self.translateActivityIndicator, button: self.translateButton, showActivityIndicator: false)
+                self.alert(title: "Erreur", message: "Erreur réseau !")
             }
+            self.activityIndicator(activityIndicator: self.translateActivityIndicator, button: self.translateButton, showActivityIndicator: false)
+        }
     }
     
-
+    
     // MARK: - Methods
-
+    
     // method to change the label language to match with the pickerView selected
     private func changeLanguage(index: Int) {
         switch index {
@@ -89,19 +89,19 @@ class TranslateViewController: UIViewController {
 }
 
 extension TranslateViewController: UIPickerViewDataSource, UIPickerViewDelegate {
-
+    
     // MARK: - Extension for pickerView
-
+    
     // method to return the number's colum of the UIPickerView
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
-
+    
     // method to return the number of lines in the UIPickerView
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return translateService.language.count
     }
-
+    
     // method to returns the value corresponding to the pickerView, change color text in white
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         changeLanguage(index: row)
@@ -111,11 +111,11 @@ extension TranslateViewController: UIPickerViewDataSource, UIPickerViewDelegate 
 
 extension TranslateViewController: UITextFieldDelegate {
     
-        // MARK: - Extension to dismiss Keyboard
+    // MARK: - Extension to dismiss Keyboard
     
-        @IBAction func dismissKeyboard(_ sender: UITapGestureRecognizer) {
-            text.resignFirstResponder()
-        }
+    @IBAction func dismissKeyboard(_ sender: UITapGestureRecognizer) {
+        text.resignFirstResponder()
     }
+}
 
 

@@ -39,19 +39,19 @@ class WeatherViewController: UIViewController {
     }
     
     // MARK: - Methods
-
+    
     // method to get data with the API
     func updateWeather() {
         defaultSetting()
         for i in 0...1 {
             weatherService.getWeather(from: destination[i].text ?? "") { result in
-            switch result {
-            case.success(let weather):
+                switch result {
+                case.success(let weather):
                     self.displayScreen(data: weather, index: i)
-            case .failure:
+                case .failure:
                     self.alert(title: "Erreur", message: "Une erreur est survenue vérifier la Ville saisie et la connexion internet")
                 }
-        }
+            }
         }
         activityIndicator(activityIndicator: weatherActivityIndicator, button: forecastButton, showActivityIndicator: false)
     }
@@ -60,7 +60,7 @@ class WeatherViewController: UIViewController {
     private func defaultSetting() {
         if destination[0].text == "" {
             destination[0].text = "New York"
-        }else if destination[1].text == "" {
+        } else if destination[1].text == "" {
             destination[1].text = "Strasbourg"
         }
     }

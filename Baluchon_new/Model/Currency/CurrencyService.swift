@@ -8,7 +8,7 @@
 
 import Foundation
 
-class CurrencyService {
+final class CurrencyService {
     
     // MARK: - Properties
     

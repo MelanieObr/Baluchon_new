@@ -21,8 +21,8 @@ class CurrencyServiceTests: XCTestCase {
         currencyService.getRate { result in
             // Then
             guard case .failure(let error) = result else {
-            XCTFail("Test request method with an error failed")
-            return
+                XCTFail("Test request method with an error failed")
+                return
             }
             XCTAssertNotNil(error)
             expectation.fulfill()
@@ -39,13 +39,13 @@ class CurrencyServiceTests: XCTestCase {
         currencyService.getRate { result in
             // Then
             guard case .failure(let error) = result else {
-               XCTFail("Test request method with an error failed")
+                XCTFail("Test request method with an error failed")
                 return
             }
             XCTAssertNotNil(error)
             expectation.fulfill()
         }
-       wait(for: [expectation], timeout: 0.01)
+        wait(for: [expectation], timeout: 0.01)
     }
     
     // Test if there an incorrect response
@@ -101,5 +101,5 @@ class CurrencyServiceTests: XCTestCase {
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
-}
+    }
 }

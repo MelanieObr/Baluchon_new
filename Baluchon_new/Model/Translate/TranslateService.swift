@@ -42,17 +42,17 @@ class TranslateService {
         task?.cancel()
         task = translateSession.dataTask(with: request) { (data, response, error) in
             DispatchQueue.main.async {
-                        guard let data = data, error == nil else {
-                            callback(.failure(.errorNetwork))
-                            return
-                        }
-                        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                            callback(.failure(.invalidRequest))
-                            return
-                        }
+                guard let data = data, error == nil else {
+                    callback(.failure(.errorNetwork))
+                    return
+                }
+                guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                    callback(.failure(.invalidRequest))
+                    return
+                }
                 guard let responseJSON = try? JSONDecoder().decode(Translate.self, from: data) else {
-                        callback(.failure(.errorData))
-                        return
+                    callback(.failure(.errorData))
+                    return
                 }
                 callback(.success(responseJSON))
                 return
@@ -60,7 +60,7 @@ class TranslateService {
         }
         task?.resume()
     }
-
+    
     
     // create a request based on the received parameter
     private func createTranslateRequest(text: String, language: Language) -> URLRequest? {

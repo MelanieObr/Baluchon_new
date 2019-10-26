@@ -309,7 +309,7 @@
                                                         <nil key="highlightedColor"/>
                                                         <size key="shadowOffset" width="0.0" height="0.0"/>
                                                     </label>
-                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" borderStyle="bezel" placeholder="ex: Bonjour" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="8y2-i7-gsE" customClass="CustomTextField" customModule="Baluchon_new" customModuleProvider="target">
+                                                    <textField opaque="NO" contentMode="top" contentHorizontalAlignment="center" contentVerticalAlignment="top" borderStyle="bezel" placeholder="ex: Bonjour" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="8y2-i7-gsE" customClass="CustomTextField" customModule="Baluchon_new" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="34.5" width="354" height="164"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="textColor"/>

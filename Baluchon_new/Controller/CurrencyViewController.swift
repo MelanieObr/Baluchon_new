@@ -46,7 +46,7 @@ class CurrencyViewController: UIViewController {
     
     // MARK: - Methods
     
-    /// Method to convert
+    /// method to convert
     private func convertCurrency() {
         
         // show activityIndicator when we send the request to the API
@@ -75,7 +75,7 @@ class CurrencyViewController: UIViewController {
         }
     }
     
-    /// Method to display result with two decimals
+    /// method to display result with two decimals
     func displayWithTwoDecimals(result: Double){
         let result = String(format: "%.2f", result)
         currencyResultLabel.text = result

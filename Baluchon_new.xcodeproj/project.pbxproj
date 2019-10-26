@@ -32,6 +32,8 @@
 		B8063A8D2343CCCC007DDDF6 /* WeatherServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8063A8C2343CCCC007DDDF6 /* WeatherServiceTests.swift */; };
 		B8063A8F2343DF95007DDDF6 /* TranslateEnglish.json in Resources */ = {isa = PBXBuildFile; fileRef = B8063A8E2343DF95007DDDF6 /* TranslateEnglish.json */; };
 		B8063A912343DFB1007DDDF6 /* TranslateDetect.json in Resources */ = {isa = PBXBuildFile; fileRef = B8063A902343DFB1007DDDF6 /* TranslateDetect.json */; };
+		B806747C235F617F00B51518 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B806747B235F617F00B51518 /* CustomTextField.swift */; };
+		B806747E236073BE00B51518 /* ErrorCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = B806747D236073BE00B51518 /* ErrorCases.swift */; };
 		B886AC9023214DAC0003582D /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B886AC8F23214DAC0003582D /* UIViewController.swift */; };
 		B886AC9223214E520003582D /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B886AC9123214E520003582D /* WeatherView.swift */; };
 		B886AC9423216CBE0003582D /* ApiMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = B886AC9323216CBE0003582D /* ApiMethod.swift */; };
@@ -87,6 +89,8 @@
 		B8063A8C2343CCCC007DDDF6 /* WeatherServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherServiceTests.swift; sourceTree = "<group>"; };
 		B8063A8E2343DF95007DDDF6 /* TranslateEnglish.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TranslateEnglish.json; sourceTree = "<group>"; };
 		B8063A902343DFB1007DDDF6 /* TranslateDetect.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = TranslateDetect.json; sourceTree = "<group>"; };
+		B806747B235F617F00B51518 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		B806747D236073BE00B51518 /* ErrorCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCases.swift; sourceTree = "<group>"; };
 		B886AC8F23214DAC0003582D /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		B886AC9123214E520003582D /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
 		B886AC9323216CBE0003582D /* ApiMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiMethod.swift; sourceTree = "<group>"; };
@@ -192,6 +196,7 @@
 				B801D67E2321138C0081DB3E /* LaunchScreen.storyboard */,
 				B801D6792321138A0081DB3E /* Main.storyboard */,
 				B886AC9123214E520003582D /* WeatherView.swift */,
+				B806747B235F617F00B51518 /* CustomTextField.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -275,6 +280,7 @@
 			isa = PBXGroup;
 			children = (
 				B886AC8F23214DAC0003582D /* UIViewController.swift */,
+				B806747D236073BE00B51518 /* ErrorCases.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -416,12 +422,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B806747C235F617F00B51518 /* CustomTextField.swift in Sources */,
 				B801D6AD232114D50081DB3E /* Weather.swift in Sources */,
 				B801D6B9232115FC0081DB3E /* TranslateViewController.swift in Sources */,
 				B886AC9423216CBE0003582D /* ApiMethod.swift in Sources */,
 				B886AC9023214DAC0003582D /* UIViewController.swift in Sources */,
 				B801D6AF232114EF0081DB3E /* TranslateService.swift in Sources */,
 				B801D6B1232114FE0081DB3E /* Translate.swift in Sources */,
+				B806747E236073BE00B51518 /* ErrorCases.swift in Sources */,
 				B886AC9223214E520003582D /* WeatherView.swift in Sources */,
 				B801D6B7232115E90081DB3E /* CurrencyViewController.swift in Sources */,
 				B801D6B5232115AE0081DB3E /* Currency.swift in Sources */,

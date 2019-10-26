@@ -8,13 +8,23 @@
 
 import Foundation
 
-    // faire une classe
-    // Method to use the API key hidden in ApiKeys.plist
-    func valueForAPIKey(named keyname:String) -> String {
-        let filePath = Bundle.main.path(forResource: "ApiKeys", ofType: "plist")
-        let plist = NSDictionary(contentsOfFile:filePath!)
-        let value = plist?.object(forKey: keyname) as! String
-        
-        return value
-        
+// get API Keys from ApiKeys.plist (git ignored)
+
+final class ApiMethod {
+    
+    var apiKey: ApiKeys? {
+        guard let path = Bundle.main.path(forResource: "ApiKeys", ofType: "plist"), let data = FileManager.default.contents(atPath: path) else {
+            return nil
+        }
+        guard let dataApi = try? PropertyListDecoder().decode(ApiKeys.self, from: data) else {
+            return nil
+        }
+        return dataApi
+    }
+}
+
+struct ApiKeys: Decodable {
+    let apiCurrency: String
+    let apiTranslate: String
+    let apiWeather: String
 }

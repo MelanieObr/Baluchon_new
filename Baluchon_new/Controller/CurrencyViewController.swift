@@ -12,8 +12,10 @@ class CurrencyViewController: UIViewController {
     
     // MARK: - Properties
     
+    // instance of the symbols
     let fromSymbol = "EUR"
     let toSymbol = "USD"
+    // instance of the CurrencyService class
     private let currencyService = CurrencyService()
     
     
@@ -24,17 +26,18 @@ class CurrencyViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var convertButton: UIButton!
     
-    // MARK: - Action and alert to enter value
+    // MARK: - Action to check if there's value to convert
+    
     @IBAction func tappedConvertButton(_ sender: UIButton) {
         guard currencyTextField.text != "", currencyTextField.text != "," else {
+            // send an alert to enter a value to convert
             alert(title: "Erreur", message: "Entrez un montant !")
             return
         }
         self.convertCurrency()
     }
     
-    // MARK: - View Life cycle
-    // notifications and hide activity indicator
+    // MARK: - View Life cycle : hide activityIndicator
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,36 +46,43 @@ class CurrencyViewController: UIViewController {
     
     // MARK: - Methods
     
-    fileprivate func convertCurrency() {
+    /// Method to convert
+    private func convertCurrency() {
+        
+        // show activityIndicator when we send the request to the API
         activityIndicator(activityIndicator: activityIndicator, button: convertButton, showActivityIndicator: true)
         
-        // Recover the amount to convert in the textField
-        let baseAmount = getAmount(textfield: currencyTextField)
+        // change type of the value in Double for the call
+        guard let text = currencyTextField.text, let value = Double(text) else { return }
         
-        currencyService.getRate { (success, usdRate) in
+        // call API to send request
+        currencyService.getRate { result in
+            
+            // hide activityIndicator when we get the result
             self.activityIndicator(activityIndicator: self.activityIndicator, button: self.convertButton, showActivityIndicator: false)
             
-            
-            if success, let usdRate = usdRate {
-                let convertedAmount = baseAmount * usdRate
-                // Convert the amount in string with two decimal numbers
-                let stringAmount = String(format: "%.2f", convertedAmount)
-                self.currencyResultLabel.text = stringAmount
-            } else {
-                // Display an error
+            // manage the result success or failure
+            switch result {
+                
+            // display the value converted
+            case .success(let currency):
+                self.displayWithTwoDecimals(result: currency.convert(value: value, from: self.fromSymbol, to: self.toSymbol))
+                
+            // send an alert that the exchange doesn't work
+            case .failure:
                 self.alert(title: "Erreur", message: "Impossible de convertir")
             }
         }
     }
     
-    func getAmount(textfield: UITextField) -> Double {
-        guard let stringAmount = textfield.text else { return 0.0 }
-        guard let amount = Double(stringAmount) else { return 0.0 }
-        return amount
+    /// Method to display result with two decimals
+    func displayWithTwoDecimals(result: Double){
+        let result = String(format: "%.2f", result)
+        currencyResultLabel.text = result
     }
 }
 
-// MARK: - Extension dismiss keyboard
+// MARK: - Extension to dismiss keyboard
 
 extension CurrencyViewController: UITextFieldDelegate {
     @IBAction func dismissKeyboard(_ sender: UITapGestureRecognizer) {

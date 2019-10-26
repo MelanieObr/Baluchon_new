@@ -9,38 +9,42 @@
 import Foundation
 
 class CurrencyService {
-
+    
     // MARK: - Properties
     
-    private let keyCurrency = valueForAPIKey(named: "ApiCurrency")
-    private var currencySession: URLSession
+    // URLSessionsDataTask
     private var task: URLSessionDataTask?
+    // URLSession
+    private var currencySession: URLSession
+    // initialiaze URLSession
     init(currencySession: URLSession = URLSession(configuration: .default)) {
         self.currencySession = currencySession
     }
     
-    // MARK: - Methods
+    // MARK: - Method
     
-    func getRate(callback: @escaping (Bool, Double?) -> Void) {
-        guard let url = URL(string: "http://data.fixer.io/api/latest?access_key=\(keyCurrency)&base=EUR&symbols=USD") else { return }
+    /// send a request to Fixer API and return response
+    func getRate(callback: @escaping (Result<Currrency, ErrorCases>) -> Void) {
+        guard let apiKey = ApiMethod().apiKey else { return }
+        guard let url = URL(string: "http://data.fixer.io/api/latest?access_key=\(apiKey.apiCurrency)&base=EUR&symbols=USD") else { return }
         task?.cancel()
         task = currencySession.dataTask(with: url) { (data, response, error) in
             DispatchQueue.main.async {
                 guard let data = data, error == nil else {
-                    callback(false, nil)
+                    callback(.failure(.errorNetwork))
                     return
                 }
                 guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                    callback(false, nil)
+                    callback(.failure(.invalidRequest))
                     return
                 }
-                guard let responseJSON = try? JSONDecoder().decode(Currrency.self, from: data),
-                    // convert a mettre
-                    let usdRate = responseJSON.rates["USD"] else {
-                        callback(false, nil)
-                        return
+                guard let responseJSON = try? JSONDecoder().decode(Currrency.self, from: data) else {
+                    // convert à mettre... pas réussi
+                    callback(.failure(.errorData))
+                    return
                 }
-                callback(true, usdRate)
+                callback(.success(responseJSON))
+                
             }
         }
         task?.resume()

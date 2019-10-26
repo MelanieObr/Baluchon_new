@@ -11,15 +11,15 @@ import Foundation
 // Struture to manage data
 
 struct Translate: Decodable {
-    let data: TranslationData
+    var data: TranslationData
 }
 
 struct TranslationData: Decodable {
-    let translations: [TranslationText]
+    var translations: [TranslationText]
 }
 
 struct TranslationText: Decodable {
-    let translatedText: String?
+    var translatedText: String
 }
 
 

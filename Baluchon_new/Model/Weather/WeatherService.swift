@@ -8,12 +8,10 @@
 
 import Foundation
 
-class WeatherService {
+final class WeatherService {
     
     // MARK: - Properties
     
-    // API key
-    let keyWeather = valueForAPIKey(named: "ApiWeather")
     // URLSessionDataTask
     private var task: URLSessionDataTask?
     // URLSession and initialisation
@@ -25,30 +23,33 @@ class WeatherService {
     // MARK: - Methods
     
     // send a request to the OpenWeatherMap API and return this response
-    func getWeather(city: String, callback: @escaping (Bool, WeatherInfo?) -> Void) {
+    func getWeather(from city: String, callback: @escaping (Result <WeatherInfo, ErrorCases>) -> Void) {
+        guard let apiKey = ApiMethod().apiKey else { return }
         // stock city demanded by user and add it to the URL
         guard let encodedCity = city.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else { return }
-        guard let url = URL(string: "http://api.openweathermap.org/data/2.5/weather?q=\(encodedCity)&APPID=\(keyWeather)&units=metric") else { return }
+        guard let url = URL(string: "http://api.openweathermap.org/data/2.5/weather?q=\(encodedCity)&APPID=\(apiKey.apiWeather)&units=metric") else { return }
         task = weatherSession.dataTask(with: url) { (data, response, error) in
             DispatchQueue.main.async {
                 guard let data = data, error == nil else {
-                    callback(false, nil)
-                    return
+                callback(.failure(.errorNetwork))
+                                        return
                 }
+                
                 guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                    callback(false, nil)
+                    callback(.failure(.invalidRequest))
                     return
                 }
+                
+                // lecture JSON
                 guard let responseJSON = try? JSONDecoder().decode(WeatherInfo.self, from: data) else {
-                    callback(false, nil)
+                    callback(.failure(.errorData))
                     return
                 }
-                callback(true, responseJSON)
+                callback(.success(responseJSON))
             }
         }
         task?.resume()
     }
-}
-
+} 
 
 

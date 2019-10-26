@@ -31,9 +31,4 @@ extension UIViewController {
         activityIndicator.isHidden = !showActivityIndicator
         button.isHidden = showActivityIndicator
     }
-    
-    // applies the text received to a UITextView
-    func refreshScreen(text: String, textView: UITextView) {
-        textView.text = text
-    }
 }

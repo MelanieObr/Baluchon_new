@@ -16,9 +16,12 @@ class TranslateServiceTests: XCTestCase {
         let translate = TranslateService(translateSession: URLSessionFake(data: nil, response: nil, error: FakeResponseData.error))
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         
-        translate.translate(language: .fr, text: "Bonjour") { (success, translatedText) in
-            XCTAssertFalse(success)
-            XCTAssertNil(translatedText)
+        translate.translate(language: .fr, text: "Bonjour") { result in
+            guard case .failure(let error) = result else {
+                XCTFail("Test request method with an error failed.")
+                return
+            }
+            XCTAssertNotNil(error)
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -29,12 +32,14 @@ class TranslateServiceTests: XCTestCase {
         let translate = TranslateService(translateSession: URLSessionFake(data: nil, response: nil, error: nil))
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         
-        translate.translate(language: .en, text: "Bonjour") { (success, translatedText) in
-            XCTAssertFalse(success)
-            XCTAssertNil(translatedText)
+        translate.translate(language: .fr, text: "Bonjour") { result in
+            guard case .failure(let error) = result else {
+                XCTFail("Test request method with an error failed.")
+                return
+            }
+            XCTAssertNotNil(error)
             expectation.fulfill()
         }
-        
         wait(for: [expectation], timeout: 0.01)
     }
     
@@ -43,9 +48,12 @@ class TranslateServiceTests: XCTestCase {
         let translate = TranslateService(translateSession: URLSessionFake(data: FakeResponseData.translateCorrectData, response: FakeResponseData.responseKO, error: nil))
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         
-        translate.translate(language: .detect, text: "Bonjour") { (success, translatedText) in
-            XCTAssertFalse(success)
-            XCTAssertNil(translatedText)
+        translate.translate(language: .fr, text: "Bonjour") { result in
+            guard case .failure(let error) = result else {
+                XCTFail("Test request method with an error failed.")
+                return
+            }
+            XCTAssertNotNil(error)
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -56,9 +64,12 @@ class TranslateServiceTests: XCTestCase {
         let translate = TranslateService(translateSession: URLSessionFake(data: FakeResponseData.IncorrectData, response: FakeResponseData.responseOK, error: nil))
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         
-        translate.translate(language: .fr, text: "Bonjour") { (success, translatedText) in
-            XCTAssertFalse(success)
-            XCTAssertNil(translatedText)
+        translate.translate(language: .fr, text: "Bonjour") { result in
+            guard case .failure(let error) = result else {
+                XCTFail("Test request method with an error failed.")
+                return
+            }
+            XCTAssertNotNil(error)
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -68,12 +79,13 @@ class TranslateServiceTests: XCTestCase {
     func testTranslateShouldPostSuccessCallbackIfNoErrorAndCorrectData() {
         let translate = TranslateService(translateSession: URLSessionFake(data: FakeResponseData.translateCorrectData, response: FakeResponseData.responseOK, error: nil))
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        let fakeTranslation: String = "Hello"
         
-        translate.translate(language: .fr, text: "Bonjour") { (success, translatedText) in
-            XCTAssertTrue(success)
-            XCTAssertNotNil(translatedText)
-            XCTAssertEqual(fakeTranslation, translatedText!)
+        translate.translate(language: .fr, text: "Bonjour") { result in
+            guard case .success(let resultTranslate) = result else {
+                XCTFail("Test request method with an error failed.")
+                return
+            }
+            XCTAssertEqual(resultTranslate.data.translations[0].translatedText, "Hello")
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
@@ -83,26 +95,28 @@ class TranslateServiceTests: XCTestCase {
     func testTranslateShouldPostSuccessCallbackIfNoErrorAndCorrectDataSourceEnglish() {
         let translate = TranslateService(translateSession: URLSessionFake(data: FakeResponseData.translateCorrectDataEnglish, response: FakeResponseData.responseOK, error: nil))
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        let fakeTranslation: String = "salut"
         
-        translate.translate(language: .en, text: "Hello") { (success, translatedText) in
-            XCTAssertTrue(success)
-            XCTAssertNotNil(translatedText)
-            XCTAssertEqual(fakeTranslation, translatedText!)
+        translate.translate(language: .en, text: "Hello") { result in
+            guard case .success(let resultTranslate) = result else {
+                XCTFail("Test request method with an error failed.")
+                return
+            }
+            XCTAssertEqual(resultTranslate.data.translations[0].translatedText, "Salut")
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)
     }
+    
     // test callback success with no error and correct data source english
     func testTranslateShouldPostSuccessCallbackIfNoErrorAndCorrectDataSourceDetect() {
         let translate = TranslateService(translateSession: URLSessionFake(data: FakeResponseData.translateCorrectDataDetect, response: FakeResponseData.responseOK, error: nil))
         let expectation = XCTestExpectation(description: "Wait for queue change.")
-        let fakeTranslation: String = "merci"
-        
-        translate.translate(language: .detect, text: "gracias") { (success, translatedText) in
-            XCTAssertTrue(success)
-            XCTAssertNotNil(translatedText)
-            XCTAssertEqual(fakeTranslation, translatedText!)
+        translate.translate(language: .detect, text: "Gracias") { result in
+            guard case .success(let result) = result else {
+                XCTFail("Test request method with an error failed.")
+                return
+            }
+            XCTAssertEqual(result.data.translations[0].translatedText, "Merci")
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)

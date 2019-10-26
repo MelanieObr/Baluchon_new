@@ -16,12 +16,15 @@ class WeatherServiceTests: XCTestCase {
         let weather = WeatherService(weatherSession: URLSessionFake(data: nil, response: nil, error: FakeResponseData.error))
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         
-        weather.getWeather(city: "Strasbourg") { (success, weather) in
-            XCTAssertFalse(success)
-            XCTAssertNil(weather)
+        weather.getWeather(from: "Strasbourg") { result in
+            // Then
+            guard case .failure(let error) = result else {
+                XCTFail("Test request method with an error failed")
+                return
+            }
+            XCTAssertNotNil(error)
             expectation.fulfill()
         }
-        
         wait(for: [expectation], timeout: 0.01)
     }
     
@@ -30,12 +33,15 @@ class WeatherServiceTests: XCTestCase {
         let weather = WeatherService(weatherSession: URLSessionFake(data: nil, response: nil, error: nil))
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         
-        weather.getWeather(city: "Strasbourg") { (success, weather) in
-            XCTAssertFalse(success)
-            XCTAssertNil(weather)
+        weather.getWeather(from: "Strasbourg") { result in
+            // Then
+            guard case .failure(let error) = result else {
+                XCTFail("Test request method with an error failed")
+                return
+            }
+            XCTAssertNotNil(error)
             expectation.fulfill()
         }
-        
         wait(for: [expectation], timeout: 0.01)
     }
     
@@ -44,12 +50,15 @@ class WeatherServiceTests: XCTestCase {
         let weather = WeatherService(weatherSession: URLSessionFake(data: FakeResponseData.translateCorrectData, response: FakeResponseData.responseKO, error: nil))
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         
-        weather.getWeather(city: "Strasbourg") { (success, weather) in
-            XCTAssertFalse(success)
-            XCTAssertNil(weather)
+        weather.getWeather(from: "Strasbourg") { result in
+            // Then
+            guard case .failure(let error) = result else {
+                XCTFail("Test request method with an error failed")
+                return
+            }
+            XCTAssertNotNil(error)
             expectation.fulfill()
         }
-        
         wait(for: [expectation], timeout: 0.01)
     }
     
@@ -58,12 +67,15 @@ class WeatherServiceTests: XCTestCase {
         let weather = WeatherService(weatherSession: URLSessionFake(data: FakeResponseData.IncorrectData, response: FakeResponseData.responseOK, error: nil))
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         
-        weather.getWeather(city: "Strasbourg") { (success, weather) in
-            XCTAssertFalse(success)
-            XCTAssertNil(weather)
+        weather.getWeather(from: "Strasbourg") { result in
+            // Then
+            guard case .failure(let error) = result else {
+                XCTFail("Test request method with an error failed")
+                return
+            }
+            XCTAssertNotNil(error)
             expectation.fulfill()
         }
-        
         wait(for: [expectation], timeout: 0.01)
     }
     
@@ -72,20 +84,22 @@ class WeatherServiceTests: XCTestCase {
         let weather = WeatherService(weatherSession: URLSessionFake(data: FakeResponseData.weatherCorrectData, response: FakeResponseData.responseOK, error: nil))
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         
-        weather.getWeather(city: "Strasbourg") { (success, weather) in
-            XCTAssertTrue(success)
-            XCTAssertNotNil(weather)
+        weather.getWeather(from: "Strasbourg") { result in
+                guard case .success (let weather) = result else {
+                    XCTFail("Test request method with an error failed.")
+                    return
+                }
             
             let fakeWeatherWind: Float = 3.1
             let fakeWeatherTemp: Float = 17.3
             let fakeWeather: String = "Rain"
+
             
-            XCTAssertEqual(fakeWeatherWind, weather?.wind.speed)
-            XCTAssertEqual(fakeWeatherTemp, weather?.main.temp)
-            XCTAssertEqual(fakeWeather, weather?.weather[0].main)
+            XCTAssertEqual(fakeWeatherWind, weather.wind.speed)
+            XCTAssertEqual(fakeWeatherTemp, weather.main.temp)
+            XCTAssertEqual(fakeWeather, weather.weather[0].main)
             expectation.fulfill()
         }
-        
         wait(for: [expectation], timeout: 0.01)
     }
 

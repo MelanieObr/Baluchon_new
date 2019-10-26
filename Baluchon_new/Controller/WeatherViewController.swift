@@ -13,7 +13,7 @@ class WeatherViewController: UIViewController {
     // MARK: - Property
     
     //instance of the WeatherService class
-    private let weather = WeatherService()
+    private let weatherService = WeatherService()
     
     // MARK: - Outlets
     
@@ -39,18 +39,19 @@ class WeatherViewController: UIViewController {
     }
     
     // MARK: - Methods
-    
+
     // method to get data with the API
     func updateWeather() {
         defaultSetting()
         for i in 0...1 {
-            weather.getWeather(city: destination[i].text!) { (success, weather) in
-                if success {
-                    self.displayScreen(weather: weather!, index: i)
-                } else {
+            weatherService.getWeather(from: destination[i].text ?? "") { result in
+            switch result {
+            case.success(let weather):
+                    self.displayScreen(data: weather, index: i)
+            case .failure:
                     self.alert(title: "Erreur", message: "Une erreur est survenue vérifier la Ville saisie et la connexion internet")
                 }
-            }
+        }
         }
         activityIndicator(activityIndicator: weatherActivityIndicator, button: forecastButton, showActivityIndicator: false)
     }
@@ -65,14 +66,14 @@ class WeatherViewController: UIViewController {
     }
     
     // display informations
-    private func displayScreen(weather: WeatherInfo, index: Int) {
+    private func displayScreen(data: WeatherInfo, index: Int) {
         info[index].isHidden = false
-        temp[index].text = convertToString(value: weather.main.temp) + "°C"
-        wind[index].text = convertToString(value: weather.wind.speed) + "km/h"
-        descriptionWeather[index].text = weather.weather[0].main
+        temp[index].text = convertToString(value: data.main.temp) + "°C"
+        wind[index].text = convertToString(value: data.wind.speed) + "km/h"
+        descriptionWeather[index].text = data.weather[0].main
         descriptionWeather[index].isHidden = false
         iconWeather[index].isHidden = false
-        iconWeather[index].image = WeatherView.icon[weather.weather[0].main]
+        iconWeather[index].image = WeatherView.icon[data.weather[0].main]
     }
 }
 

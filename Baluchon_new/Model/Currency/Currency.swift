@@ -19,9 +19,9 @@ struct Currrency: Decodable {
     }
     
     func convert(value: Double, from: String, to: String) -> Double {
-        let rate = Double((rates[to])!)
+        let rate = Double((rates[to]) ?? 0.0)
         let convertValue = convertFromEuro(value: value, rate: rate)
-        return convertValue 
+        return convertValue
     }
 }
 

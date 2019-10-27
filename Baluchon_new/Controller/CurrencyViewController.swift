@@ -70,7 +70,7 @@ class CurrencyViewController: UIViewController {
                 
             // send an alert that the exchange doesn't work
             case .failure:
-                self.alert(title: "Erreur", message: "Impossible de convertir")
+                self.alert(title: "Erreur", message: "Impossible de convertir, vérifier la votre saisie et la connexion internet !")
             }
         }
     }

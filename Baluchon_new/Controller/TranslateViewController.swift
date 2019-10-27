@@ -53,7 +53,7 @@ class TranslateViewController: UIViewController {
             case .success(let translatedText):
                 self.refreshScreen(data: translatedText, textView: self.translation)
             case .failure:
-                self.alert(title: "Erreur", message: "Erreur réseau !")
+                self.alert(title: "Erreur", message: "Une erreur est survenue, vérifier la votre saisie et la connexion internet !")
             }
             self.activityIndicator(activityIndicator: self.translateActivityIndicator, button: self.translateButton, showActivityIndicator: false)
         }

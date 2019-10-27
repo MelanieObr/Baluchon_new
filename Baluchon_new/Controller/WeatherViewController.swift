@@ -49,7 +49,7 @@ class WeatherViewController: UIViewController {
                 case.success(let weather):
                     self.displayScreen(data: weather, index: i)
                 case .failure:
-                    self.alert(title: "Erreur", message: "Une erreur est survenue vérifier la Ville saisie et la connexion internet")
+                    self.alert(title: "Erreur", message: "Une erreur est survenue vérifier la ville saisie et la connexion internet")
                 }
             }
         }

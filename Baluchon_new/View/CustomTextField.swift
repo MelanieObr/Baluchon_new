@@ -9,10 +9,10 @@
 import UIKit
 
 class CustomTextField: UITextField {
-    
+
     override func clearButtonRect(forBounds bounds: CGRect) -> CGRect {
         let originalRect = super.clearButtonRect(forBounds: bounds)
-        
+
         return originalRect.offsetBy(dx: 3, dy: -68)
     }
 }

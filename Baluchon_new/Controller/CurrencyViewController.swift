@@ -8,27 +8,27 @@
 
 import UIKit
 
-class CurrencyViewController: UIViewController {
+final class CurrencyViewController: UIViewController {
     
     // MARK: - Properties
     
     // instance of the symbols
-    let fromSymbol = "EUR"
-    let toSymbol = "USD"
+    private let fromSymbol = "EUR"
+    private let toSymbol = "USD"
     // instance of the CurrencyService class
     private let currencyService = CurrencyService()
     
     
     // MARK: - Outlets
     
-    @IBOutlet weak var currencyTextField: UITextField!
-    @IBOutlet weak var currencyResultLabel: UILabel!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var convertButton: UIButton!
+    @IBOutlet private weak var currencyTextField: UITextField!
+    @IBOutlet private weak var currencyResultLabel: UILabel!
+    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var convertButton: UIButton!
     
     // MARK: - Action to check if there's value to convert
     
-    @IBAction func tappedConvertButton(_ sender: UIButton) {
+    @IBAction private func tappedConvertButton(_ sender: UIButton) {
         guard currencyTextField.text != "", currencyTextField.text != "," else {
             // send an alert to enter a value to convert
             alert(title: "Erreur", message: "Entrez un montant !")
@@ -49,11 +49,11 @@ class CurrencyViewController: UIViewController {
     /// method to convert
     private func convertCurrency() {
         
-        // show activityIndicator when we send the request to the API
-        activityIndicator(activityIndicator: activityIndicator, button: convertButton, showActivityIndicator: true)
-        
         // change type of the value in Double for the call
         guard let text = currencyTextField.text, let value = Double(text) else { return }
+        
+        // show activityIndicator when we send the request to the API
+        activityIndicator(activityIndicator: activityIndicator, button: convertButton, showActivityIndicator: true)
         
         // call API to send request
         currencyService.getRate { result in

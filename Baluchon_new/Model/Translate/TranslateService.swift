@@ -17,7 +17,7 @@ enum Language {
 
 class TranslateService {
     
-    //  MARK: - Properties
+//  MARK: - Properties
     
     let language: [String] = ["Français > Anglais", "Anglais > Français", "Detection > Français"]
     // source message language
@@ -80,7 +80,7 @@ class TranslateService {
     
     
     
-    // change source and target by the index
+    /// change source and target by the index
     func selectedLanguage(language: Language) {
         switch language {
         case .fr :

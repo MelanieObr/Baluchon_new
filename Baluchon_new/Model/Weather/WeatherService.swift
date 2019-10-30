@@ -23,7 +23,7 @@ final class WeatherService {
     // MARK: - Methods
     
     // send a request to the OpenWeatherMap API and return this response
-    func getWeather(from city: String, callback: @escaping (Result <WeatherInfo, ErrorCases>) -> Void) {
+    func getWeather(from city: String, callback: @escaping (Result<WeatherInfo, ErrorCases>) -> Void) {
         guard let apiKey = ApiMethod().apiKey else { return }
         // stock city demanded by user and add it to the URL
         guard let encodedCity = city.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) else { return }

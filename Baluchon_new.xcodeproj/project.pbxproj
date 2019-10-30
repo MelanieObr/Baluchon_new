@@ -149,9 +149,9 @@
 				B886AC9523216D320003582D /* ApiKeys.plist */,
 				B80674762357372E00B51518 /* Other */,
 				B801D6A6232114230081DB3E /* Supporting Files */,
-				B801D6A5232113FB0081DB3E /* Controller */,
-				B801D6A4232113EF0081DB3E /* View */,
 				B801D6A3232113D30081DB3E /* Model */,
+				B801D6A4232113EF0081DB3E /* View */,
+				B801D6A5232113FB0081DB3E /* Controller */,
 			);
 			path = Baluchon_new;
 			sourceTree = "<group>";

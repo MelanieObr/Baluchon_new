@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TranslateViewController: UIViewController {
+final class TranslateViewController: UIViewController {
     
     // MARK: - Properties
     

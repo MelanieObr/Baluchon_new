@@ -13,12 +13,8 @@ import Foundation
 final class ApiMethod {
     
     var apiKey: ApiKeys? {
-        guard let path = Bundle.main.path(forResource: "ApiKeys", ofType: "plist"), let data = FileManager.default.contents(atPath: path) else {
-            return nil
-        }
-        guard let dataApi = try? PropertyListDecoder().decode(ApiKeys.self, from: data) else {
-            return nil
-        }
+        guard let path = Bundle.main.path(forResource: "ApiKeys", ofType: "plist"), let data = FileManager.default.contents(atPath: path) else { return nil }
+        guard let dataApi = try? PropertyListDecoder().decode(ApiKeys.self, from: data) else { return nil }
         return dataApi
     }
 }

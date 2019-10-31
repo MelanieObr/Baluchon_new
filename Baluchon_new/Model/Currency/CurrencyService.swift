@@ -25,26 +25,29 @@ final class CurrencyService {
     
     /// send a request to Fixer API and return response
     func getRate(callback: @escaping (Result<Currrency, ErrorCases>) -> Void) {
+        // stock API key
         guard let apiKey = ApiMethod().apiKey else { return }
+        // compose url
         guard let url = URL(string: "http://data.fixer.io/api/latest?access_key=\(apiKey.apiCurrency)&base=EUR&symbols=USD") else { return }
         task?.cancel()
         task = currencySession.dataTask(with: url) { (data, response, error) in
             DispatchQueue.main.async {
+                // check error
                 guard let data = data, error == nil else {
                     callback(.failure(.errorNetwork))
                     return
                 }
+                // check status response
                 guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
                     callback(.failure(.invalidRequest))
                     return
                 }
+                // check response JSON
                 guard let responseJSON = try? JSONDecoder().decode(Currrency.self, from: data) else {
-                    // convert à mettre... pas réussi
-                    callback(.failure(.errorData))
+                    callback(.failure(.errorDecode))
                     return
                 }
                 callback(.success(responseJSON))
-                
             }
         }
         task?.resume()

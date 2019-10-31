@@ -8,16 +8,15 @@
 
 import Foundation
 
-
 enum Language {
     case fr
     case en
     case detect
 }
 
-class TranslateService {
+final class TranslateService {
     
-//  MARK: - Properties
+    //  MARK: - Properties
     
     let language: [String] = ["Français > Anglais", "Anglais > Français", "Detection > Français"]
     // source message language
@@ -27,7 +26,7 @@ class TranslateService {
     // URLSession
     private var translateSession: URLSession
     // URLSessionsDataTask
-    var task: URLSessionDataTask?
+    private var task: URLSessionDataTask?
     // initialiaze URLSession
     init(translateSession: URLSession = URLSession(configuration: .default)) {
         self.translateSession = translateSession
@@ -37,21 +36,24 @@ class TranslateService {
     
     /// send a request to the Google Translate API and return response
     func translate(language: Language, text: String, callback: @escaping (Result <Translate, ErrorCases>) -> Void) {
-        
+        // compose url
         guard let request = createTranslateRequest(text: text, language: language) else { return }
         task?.cancel()
         task = translateSession.dataTask(with: request) { (data, response, error) in
             DispatchQueue.main.async {
+                // check error
                 guard let data = data, error == nil else {
                     callback(.failure(.errorNetwork))
                     return
                 }
+                // check status response
                 guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
                     callback(.failure(.invalidRequest))
                     return
                 }
+                // check response JSON
                 guard let responseJSON = try? JSONDecoder().decode(Translate.self, from: data) else {
-                    callback(.failure(.errorData))
+                    callback(.failure(.errorDecode))
                     return
                 }
                 callback(.success(responseJSON))
@@ -61,14 +63,14 @@ class TranslateService {
         task?.resume()
     }
     
-    
-    // create a request based on the received parameter
+    /// create a request based on the received parameter
     private func createTranslateRequest(text: String, language: Language) -> URLRequest? {
+        // stock API key
         guard let apiKey = ApiMethod().apiKey else { return nil }
         guard let url = URL(string: "https://translation.googleapis.com/language/translate/v2?") else { return nil }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        
+        // stock text to translate
         let q: String = text
         selectedLanguage(language: language)
         
@@ -78,10 +80,8 @@ class TranslateService {
         return request
     }
     
-    
-    
     /// change source and target by the index
-    func selectedLanguage(language: Language) {
+    private func selectedLanguage(language: Language) {
         switch language {
         case .fr :
             source = "source=fr"

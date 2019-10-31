@@ -22,13 +22,13 @@ final class TranslateViewController: UIViewController {
     
     // MARK: - Outlets
     
-    @IBOutlet weak var text: UITextField!
-    @IBOutlet weak var translation: UITextView!
-    @IBOutlet weak var pickerView: UIPickerView!
-    @IBOutlet weak var translateButton: UIButton!
-    @IBOutlet weak var translateActivityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var sourceLanguage: UILabel!
-    @IBOutlet weak var languageTranslation: UILabel!
+    @IBOutlet private weak var text: UITextField!
+    @IBOutlet private weak var translation: UITextView!
+    @IBOutlet private weak var pickerView: UIPickerView!
+    @IBOutlet private weak var translateButton: UIButton!
+    @IBOutlet private weak var translateActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var sourceLanguage: UILabel!
+    @IBOutlet private weak var languageTranslation: UILabel!
     
     // MARK: - view life cycle : hide the activity indicator
     
@@ -85,6 +85,7 @@ final class TranslateViewController: UIViewController {
     // Method to display result of translation in the textView
     func refreshScreen(data: Translate, textView: UITextView) {
         textView.text = data.data.translations[0].translatedText
+        textView.centerVertically()
     }
 }
 
@@ -118,4 +119,13 @@ extension TranslateViewController: UITextFieldDelegate {
     }
 }
 
+extension UITextView {
+    func centerVertically() {
+        let fittingSize = CGSize(width: bounds.width, height: CGFloat.greatestFiniteMagnitude)
+        let size = sizeThatFits(fittingSize)
+        let topOffset = (bounds.size.height - size.height * zoomScale) / 2
+        let positiveTopOffset = max(1, topOffset)
+        contentOffset.y = -positiveTopOffset
+    }
 
+}

@@ -17,14 +17,14 @@ final class WeatherViewController: UIViewController {
     
     // MARK: - Outlets
     
-    @IBOutlet var destination: [UITextField]!
-    @IBOutlet var iconWeather: [UIImageView]!
-    @IBOutlet weak var weatherActivityIndicator: UIActivityIndicatorView!
-    @IBOutlet var descriptionWeather: [UILabel]!
-    @IBOutlet var forecastButton: UIButton!
-    @IBOutlet var info: [UIStackView]!
-    @IBOutlet var temp: [UILabel]!
-    @IBOutlet var wind: [UILabel]!
+    @IBOutlet private var destination: [UITextField]!
+    @IBOutlet private var iconWeather: [UIImageView]!
+    @IBOutlet private weak var weatherActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet private var descriptionWeather: [UILabel]!
+    @IBOutlet private weak var forecastButton: UIButton!
+    @IBOutlet private var info: [UIStackView]!
+    @IBOutlet private var temp: [UILabel]!
+    @IBOutlet private var wind: [UILabel]!
     
     // MARK: - View life cycle, update weather for New-York and Strasbourg
     

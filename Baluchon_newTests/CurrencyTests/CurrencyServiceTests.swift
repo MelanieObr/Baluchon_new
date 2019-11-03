@@ -10,8 +10,6 @@ import XCTest
 @testable import Baluchon_new
 
 class CurrencyServiceTests: XCTestCase {
-    
-    
     // Test if there is an error
     func testGetRateShouldPostFailedCallbackIfError() {
         // Given
@@ -73,7 +71,6 @@ class CurrencyServiceTests: XCTestCase {
         // When
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         currencyService.getRate { result in
-            // Then
             // Then
             guard case .failure(let error) = result else {
                 XCTFail("Test request method with an error failed")

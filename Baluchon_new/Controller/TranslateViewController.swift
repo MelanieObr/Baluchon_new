@@ -89,10 +89,9 @@ final class TranslateViewController: UIViewController {
     }
 }
 
+// MARK: - Extension for pickerView
+
 extension TranslateViewController: UIPickerViewDataSource, UIPickerViewDelegate {
-    
-    // MARK: - Extension for pickerView
-    
     // method to return the number's colum of the UIPickerView
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -110,14 +109,15 @@ extension TranslateViewController: UIPickerViewDataSource, UIPickerViewDelegate 
     }
 }
 
+// MARK: - Extension to dismiss Keyboard
+
 extension TranslateViewController: UITextFieldDelegate {
-    
-    // MARK: - Extension to dismiss Keyboard
-    
     @IBAction func dismissKeyboard(_ sender: UITapGestureRecognizer) {
         text.resignFirstResponder()
     }
 }
+
+// MARK: - Extension to align in center the textView
 
 extension UITextView {
     func centerVertically() {
@@ -127,5 +127,5 @@ extension UITextView {
         let positiveTopOffset = max(1, topOffset)
         contentOffset.y = -positiveTopOffset
     }
-
+    
 }

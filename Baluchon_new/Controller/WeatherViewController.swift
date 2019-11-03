@@ -80,7 +80,6 @@ final class WeatherViewController: UIViewController {
 // MARK: - Extension with action to dismiss keyboard
 
 extension WeatherViewController: UITextFieldDelegate {
-    
     @IBAction func dismissKeyboard(_ sender: UITapGestureRecognizer) {
         destination[0].resignFirstResponder()
         destination[1].resignFirstResponder()

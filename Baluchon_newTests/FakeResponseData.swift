@@ -11,6 +11,7 @@ import Foundation
 class FakeResponseData {
     
     // MARK: - Data
+    
     static var currencyCorrectData: Data? {
         let bundle = Bundle(for: FakeResponseData.self)
         let url = bundle.url(forResource: "Currency", withExtension: "json")!
@@ -44,6 +45,7 @@ class FakeResponseData {
     static let IncorrectData = "erreur".data(using: .utf8)
     
     // MARK: - Response
+    
     static let responseOK = HTTPURLResponse(
         url: URL(string: "https://openclassrooms.com")!,
         statusCode: 200, httpVersion: nil, headerFields: [:])!

@@ -10,7 +10,6 @@ import XCTest
 @testable import Baluchon_new
 
 class TranslateServiceTests: XCTestCase {
-    
     // test callback return error
     func testTranslateShouldPostFailedCallbackIfError() {
         let translate = TranslateService(translateSession: URLSessionFake(data: nil, response: nil, error: FakeResponseData.error))

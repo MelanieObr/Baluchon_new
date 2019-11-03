@@ -9,7 +9,6 @@
 import Foundation
 
 // Enumeration to manage errors
-
 enum ErrorCases: Error {
     case invalidRequest
     case errorDecode

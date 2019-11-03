@@ -10,7 +10,6 @@ import XCTest
 @testable import Baluchon_new
 
 class WeatherServiceTests: XCTestCase {
-
     // test if callback returns an error
     func testTranslateShouldPostFailedCallbackIfError() {
         let weather = WeatherService(weatherSession: URLSessionFake(data: nil, response: nil, error: FakeResponseData.error))
@@ -85,15 +84,13 @@ class WeatherServiceTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Wait for queue change.")
         
         weather.getWeather(from: "Strasbourg") { result in
-                guard case .success (let weather) = result else {
-                    XCTFail("Test request method with an error failed.")
-                    return
-                }
-            
+            guard case .success (let weather) = result else {
+                XCTFail("Test request method with an error failed.")
+                return
+            }
             let fakeWeatherWind: Float = 3.1
             let fakeWeatherTemp: Float = 17.3
             let fakeWeather: String = "Rain"
-
             
             XCTAssertEqual(fakeWeatherWind, weather.wind.speed)
             XCTAssertEqual(fakeWeatherTemp, weather.main.temp)
@@ -102,5 +99,4 @@ class WeatherServiceTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 0.01)
     }
-
 }

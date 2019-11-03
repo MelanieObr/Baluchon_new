@@ -8,10 +8,8 @@
 
 import Foundation
 
-// get API Keys from ApiKeys.plist (git ignored)
-
 final class ApiMethod {
-    
+    // get API Keys from ApiKeys.plist (git ignored)
     var apiKey: ApiKeys? {
         guard let path = Bundle.main.path(forResource: "ApiKeys", ofType: "plist"), let data = FileManager.default.contents(atPath: path) else { return nil }
         guard let dataApi = try? PropertyListDecoder().decode(ApiKeys.self, from: data) else { return nil }
@@ -19,6 +17,7 @@ final class ApiMethod {
     }
 }
 
+// structure with name of keys in ApiKeys plist file
 struct ApiKeys: Decodable {
     let apiCurrency: String
     let apiTranslate: String

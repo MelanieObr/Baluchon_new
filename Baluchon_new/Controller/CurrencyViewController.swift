@@ -18,7 +18,6 @@ final class CurrencyViewController: UIViewController {
     // instance of the CurrencyService class
     private let currencyService = CurrencyService()
     
-    
     // MARK: - Outlets
     
     @IBOutlet private weak var currencyTextField: UITextField!

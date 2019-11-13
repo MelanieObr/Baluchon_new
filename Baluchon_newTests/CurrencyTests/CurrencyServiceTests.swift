@@ -94,7 +94,7 @@ class CurrencyServiceTests: XCTestCase {
                 XCTFail("Test request method with an error failed.")
                 return
             }
-            XCTAssertEqual(resultCurrency.convert(value: 1.0, from: "EUR", to: "USD"),1.092908)
+            XCTAssertEqual(resultCurrency.rates["USD"],1.092908)
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 0.01)

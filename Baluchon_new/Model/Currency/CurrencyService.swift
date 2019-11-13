@@ -24,9 +24,9 @@ final class CurrencyService {
     // MARK: - Method
     
     /// send a request to Fixer API and return response
-    func getRate(callback: @escaping (Result<Currrency, ErrorCases>) -> Void) {
+    func getRate(callback: @escaping (Result<Currency, ErrorCases>) -> Void) {
         // stock API key
-        guard let apiKey = ApiMethod().apiKey else { return }
+        guard let apiKey = ApiKeyExtractor().apiKey else { return }
         // compose url
         guard let url = URL(string: "http://data.fixer.io/api/latest?access_key=\(apiKey.apiCurrency)&base=EUR&symbols=USD") else { return }
         task?.cancel()
@@ -43,7 +43,7 @@ final class CurrencyService {
                     return
                 }
                 // check response JSON
-                guard let responseJSON = try? JSONDecoder().decode(Currrency.self, from: data) else {
+                guard let responseJSON = try? JSONDecoder().decode(Currency.self, from: data) else {
                     callback(.failure(.errorDecode))
                     return
                 }

@@ -63,20 +63,19 @@ final class TranslateService {
         task?.resume()
     }
     
-    /// create a request based on the received parameter
+    /// create a request based with parameter
     private func createTranslateRequest(text: String, language: Language) -> URLRequest? {
         // stock API key
-        guard let apiKey = ApiMethod().apiKey else { return nil }
+        guard let apiKey = ApiKeyExtractor().apiKey else { return nil }
         guard let url = URL(string: "https://translation.googleapis.com/language/translate/v2?") else { return nil }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         // stock text to translate
         let q: String = text
         selectedLanguage(language: language)
-        
-        let body = "q=\(q)" + "&\(source)" + "&target=\(target)" + "&key=\(apiKey.apiTranslate)"
+        // stock body of the request with text, source, target and APIkey
+        let body = "q=\(q)" + "&\(source)" + "&target=\(target)" + "&key=\(apiKey.apiTranslate)&format=text"
         request.httpBody = body.data(using: .utf8)
-        
         return request
     }
     

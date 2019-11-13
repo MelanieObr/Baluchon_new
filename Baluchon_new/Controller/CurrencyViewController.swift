@@ -33,7 +33,7 @@ final class CurrencyViewController: UIViewController {
             alert(title: "Erreur", message: "Entrez un montant !")
             return
         }
-        self.convertCurrency()
+        convertCurrency()
     }
     
     // MARK: - View Life cycle : hide activityIndicator
@@ -75,7 +75,7 @@ final class CurrencyViewController: UIViewController {
     }
     
     /// method to display result with two decimals
-    func displayWithTwoDecimals(result: Double){
+    private func displayWithTwoDecimals(result: Double){
         let result = String(format: "%.2f", result)
         currencyResultLabel.text = result
     }

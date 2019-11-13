@@ -1,5 +1,5 @@
 //
-//  ApiMethod.swift
+//  ApiKeyExtractor.swift
 //  Baluchon_new
 //
 //  Created by Mélanie Obringer on 05/09/2019.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class ApiMethod {
+final class ApiKeyExtractor {
     // get API Keys from ApiKeys.plist (git ignored)
     var apiKey: ApiKeys? {
         guard let path = Bundle.main.path(forResource: "ApiKeys", ofType: "plist"), let data = FileManager.default.contents(atPath: path) else { return nil }

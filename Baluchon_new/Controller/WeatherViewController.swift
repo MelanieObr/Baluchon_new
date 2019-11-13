@@ -34,14 +34,14 @@ final class WeatherViewController: UIViewController {
     
     // MARK: - Action to tap on the button to show forecast
     
-    @IBAction func didTapeWeatherForecastButton(_ sender: Any) {
+    @IBAction private func didTapeWeatherForecastButton(_ sender: Any) {
         updateWeather()
     }
     
     // MARK: - Methods
     
     // method to get data with the API
-    func updateWeather() {
+    private func updateWeather() {
         defaultSetting()
         for i in 0...1 {
             weatherService.getWeather(from: destination[i].text ?? "") { result in
@@ -59,9 +59,9 @@ final class WeatherViewController: UIViewController {
     // default settings
     private func defaultSetting() {
         if destination[0].text == "" {
-            destination[0].text = "New York"
+            destination[0].text = "  New York"
         } else if destination[1].text == "" {
-            destination[1].text = "Strasbourg"
+            destination[1].text = "  Strasbourg"
         }
     }
     
@@ -84,5 +84,4 @@ extension WeatherViewController: UITextFieldDelegate {
         destination[0].resignFirstResponder()
         destination[1].resignFirstResponder()
     }
-    
 }

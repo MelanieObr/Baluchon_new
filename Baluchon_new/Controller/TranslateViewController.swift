@@ -19,7 +19,6 @@ final class TranslateViewController: UIViewController {
     // instance of type language
     private var language: Language = .fr
     
-    
     // MARK: - Outlets
     
     @IBOutlet private weak var text: UITextField!
@@ -30,23 +29,33 @@ final class TranslateViewController: UIViewController {
     @IBOutlet private weak var sourceLanguage: UILabel!
     @IBOutlet private weak var languageTranslation: UILabel!
     
+    @IBOutlet weak var stackViewTranslate: UIStackView!
+    
     // MARK: - view life cycle : hide the activity indicator
     
     override func viewDidLoad() {
+        // align textView
         text.textAlignment = .natural
+        // hide activity indicator
         activityIndicator(activityIndicator: translateActivityIndicator, button: translateButton, showActivityIndicator: false)
+        // notications sended by keyboard to know position and apply method to move up
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+    }
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - Actions
     
     // action to manages the data received by the API, show activity indicator and hide button
-    @IBAction func didTapeTranslateButton(_ sender: Any) {
+    @IBAction private func didTapeTranslateButton(_ sender: Any) {
         index = pickerView.selectedRow(inComponent: 0)
         guard text.text != "" else {
             alert(title: "Erreur", message: "Aucun texte saisi !")
             return
         }
-        
         activityIndicator(activityIndicator: translateActivityIndicator, button: translateButton, showActivityIndicator: true)
         translateService.translate(language: language, text: text.text ?? "") { result in
             switch result {
@@ -59,10 +68,25 @@ final class TranslateViewController: UIViewController {
         }
     }
     
-    
     // MARK: - Methods
     
-    // method to change the label language to match with the pickerView selected
+    /// Method to shift the view up with the keyboard
+    @objc
+    private func keyboardWillChange(notification: NSNotification) {
+        if let keyboardRect = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]
+            as? NSValue)?.cgRectValue {
+            if notification.name == UIResponder.keyboardWillShowNotification ||
+                notification.name == UIResponder.keyboardWillChangeFrameNotification {
+                if let tabBarHeight = tabBarController?.tabBar.frame.height {
+                    view.frame.origin.y = -(keyboardRect.height - tabBarHeight)
+                }
+            } else {
+                view.frame.origin.y = 0
+            }
+        }
+    }
+    
+    /// method to change the label language to match with the pickerView selected
     private func changeLanguage(index: Int) {
         switch index {
         case 0:
@@ -82,8 +106,8 @@ final class TranslateViewController: UIViewController {
         }
     }
     
-    // Method to display result of translation in the textView
-    func refreshScreen(data: Translate, textView: UITextView) {
+    /// Method to display result of translation in the textView
+    private func refreshScreen(data: Translate, textView: UITextView) {
         textView.text = data.data.translations[0].translatedText
         textView.centerVertically()
     }
@@ -117,15 +141,4 @@ extension TranslateViewController: UITextFieldDelegate {
     }
 }
 
-// MARK: - Extension to align in center the textView
 
-extension UITextView {
-    func centerVertically() {
-        let fittingSize = CGSize(width: bounds.width, height: CGFloat.greatestFiniteMagnitude)
-        let size = sizeThatFits(fittingSize)
-        let topOffset = (bounds.size.height - size.height * zoomScale) / 2
-        let positiveTopOffset = max(1, topOffset)
-        contentOffset.y = -positiveTopOffset
-    }
-    
-}

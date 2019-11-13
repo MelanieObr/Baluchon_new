@@ -10,7 +10,7 @@ import Foundation
 
 // structure to manage data and to convert
 
-struct Currrency: Decodable {
+struct Currency: Decodable {
     
     var rates: [String: Double]
     
@@ -19,7 +19,7 @@ struct Currrency: Decodable {
     }
     
     func convert(value: Double, from: String, to: String) -> Double {
-        let rate = Double((rates[to]) ?? 0.00) 
+        guard let rate = rates[to] else { return 0.00 }
         let convertValue = convertFromEuro(value: value, rate: rate)
         return convertValue
     }

@@ -47,26 +47,19 @@ final class CurrencyViewController: UIViewController {
     
     /// method to convert
     private func convertCurrency() {
-        
         // change type of the value in Double for the call
         guard let text = currencyTextField.text, let value = Double(text) else { return }
-        
         // show activityIndicator when we send the request to the API
         activityIndicator(activityIndicator: activityIndicator, button: convertButton, showActivityIndicator: true)
-        
         // call API to send request
         currencyService.getRate { result in
-            
             // hide activityIndicator when we get the result
             self.activityIndicator(activityIndicator: self.activityIndicator, button: self.convertButton, showActivityIndicator: false)
-            
             // manage the result success or failure
             switch result {
-                
             // display the value converted
             case .success(let currency):
                 self.displayWithTwoDecimals(result: currency.convert(value: value, from: self.fromSymbol, to: self.toSymbol))
-                
             // send an alert that the exchange doesn't work
             case .failure:
                 self.alert(title: "Erreur", message: "Impossible de convertir, vérifier la votre saisie et la connexion internet !")

@@ -28,15 +28,14 @@ final class TranslateViewController: UIViewController {
     @IBOutlet private weak var translateActivityIndicator: UIActivityIndicatorView!
     @IBOutlet private weak var sourceLanguage: UILabel!
     @IBOutlet private weak var languageTranslation: UILabel!
-    
     @IBOutlet weak var stackViewTranslate: UIStackView!
     
     // MARK: - view life cycle : hide the activity indicator
     
     override func viewDidLoad() {
-        // align textView
+        // align textField
         text.textAlignment = .natural
-        // hide activity indicator
+        // hide activity indicator and display button
         activityIndicator(activityIndicator: translateActivityIndicator, button: translateButton, showActivityIndicator: false)
         // notications sended by keyboard to know position and apply method to move up
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChange(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)

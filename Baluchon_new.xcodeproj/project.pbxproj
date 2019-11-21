@@ -35,7 +35,7 @@
 		B80E634B23708AA900382AEA /* CurrencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80E634A23708AA800382AEA /* CurrencyTests.swift */; };
 		B886AC9023214DAC0003582D /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B886AC8F23214DAC0003582D /* UIViewController.swift */; };
 		B886AC9223214E520003582D /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B886AC9123214E520003582D /* WeatherView.swift */; };
-		B886AC9423216CBE0003582D /* ApiExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B886AC9323216CBE0003582D /* ApiExtractor.swift */; };
+		B886AC9423216CBE0003582D /* ApiKeyExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B886AC9323216CBE0003582D /* ApiKeyExtractor.swift */; };
 		B886AC9623216D320003582D /* ApiKeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = B886AC9523216D320003582D /* ApiKeys.plist */; };
 		B8DFA1F52379979700D88890 /* UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DFA1F42379979700D88890 /* UITextView.swift */; };
 /* End PBXBuildFile section */
@@ -92,7 +92,7 @@
 		B80E634A23708AA800382AEA /* CurrencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTests.swift; sourceTree = "<group>"; };
 		B886AC8F23214DAC0003582D /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		B886AC9123214E520003582D /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
-		B886AC9323216CBE0003582D /* ApiExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiExtractor.swift; sourceTree = "<group>"; };
+		B886AC9323216CBE0003582D /* ApiKeyExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiKeyExtractor.swift; sourceTree = "<group>"; };
 		B886AC9523216D320003582D /* ApiKeys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ApiKeys.plist; sourceTree = "<group>"; };
 		B8DFA1F42379979700D88890 /* UITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -181,7 +181,7 @@
 		B801D6A3232113D30081DB3E /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				B886AC9323216CBE0003582D /* ApiExtractor.swift */,
+				B886AC9323216CBE0003582D /* ApiKeyExtractor.swift */,
 				B801D6A9232114990081DB3E /* Weather */,
 				B801D6A82321148F0081DB3E /* Translate */,
 				B801D6A7232114730081DB3E /* Currency */,
@@ -424,7 +424,7 @@
 			files = (
 				B801D6AD232114D50081DB3E /* Weather.swift in Sources */,
 				B801D6B9232115FC0081DB3E /* TranslateViewController.swift in Sources */,
-				B886AC9423216CBE0003582D /* ApiExtractor.swift in Sources */,
+				B886AC9423216CBE0003582D /* ApiKeyExtractor.swift in Sources */,
 				B886AC9023214DAC0003582D /* UIViewController.swift in Sources */,
 				B801D6AF232114EF0081DB3E /* TranslateService.swift in Sources */,
 				B801D6B1232114FE0081DB3E /* Translate.swift in Sources */,

@@ -40,25 +40,23 @@ final class TranslateService {
         guard let request = createTranslateRequest(text: text, language: language) else { return }
         task?.cancel()
         task = translateSession.dataTask(with: request) { (data, response, error) in
-            DispatchQueue.main.async {
-                // check error
-                guard let data = data, error == nil else {
-                    callback(.failure(.errorNetwork))
-                    return
-                }
-                // check status response
-                guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                    callback(.failure(.invalidRequest))
-                    return
-                }
-                // check response JSON
-                guard let responseJSON = try? JSONDecoder().decode(Translate.self, from: data) else {
-                    callback(.failure(.errorDecode))
-                    return
-                }
-                callback(.success(responseJSON))
+            // check error
+            guard let data = data, error == nil else {
+                callback(.failure(.errorNetwork))
                 return
             }
+            // check status response
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                callback(.failure(.invalidRequest))
+                return
+            }
+            // check response JSON
+            guard let responseJSON = try? JSONDecoder().decode(Translate.self, from: data) else {
+                callback(.failure(.errorDecode))
+                return
+            }
+            callback(.success(responseJSON))
+            return
         }
         task?.resume()
     }

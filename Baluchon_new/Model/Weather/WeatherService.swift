@@ -31,24 +31,22 @@ final class WeatherService {
         // compose url
         guard let url = URL(string: "http://api.openweathermap.org/data/2.5/weather?q=\(encodedCity)&APPID=\(apiKey.apiWeather)&units=metric") else { return }
         task = weatherSession.dataTask(with: url) { (data, response, error) in
-            DispatchQueue.main.async {
-                // check error
-                guard let data = data, error == nil else {
-                    callback(.failure(.errorNetwork))
-                    return
-                }
-                // check status response
-                guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
-                    callback(.failure(.invalidRequest))
-                    return
-                }
-                // check response JSON
-                guard let responseJSON = try? JSONDecoder().decode(WeatherInfo.self, from: data) else {
-                    callback(.failure(.errorDecode))
-                    return
-                }
-                callback(.success(responseJSON))
+            // check error
+            guard let data = data, error == nil else {
+                callback(.failure(.errorNetwork))
+                return
             }
+            // check status response
+            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+                callback(.failure(.invalidRequest))
+                return
+            }
+            // check response JSON
+            guard let responseJSON = try? JSONDecoder().decode(WeatherInfo.self, from: data) else {
+                callback(.failure(.errorDecode))
+                return
+            }
+            callback(.success(responseJSON))
         }
         task?.resume()
     }

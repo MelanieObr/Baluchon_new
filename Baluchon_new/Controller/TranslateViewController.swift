@@ -57,13 +57,15 @@ final class TranslateViewController: UIViewController {
         }
         activityIndicator(activityIndicator: translateActivityIndicator, button: translateButton, showActivityIndicator: true)
         translateService.translate(language: language, text: text.text ?? "") { result in
-            switch result {
-            case .success(let translatedText):
-                self.refreshScreen(data: translatedText, textView: self.translation)
-            case .failure:
-                self.alert(title: "Erreur", message: "Une erreur est survenue, vérifier la votre saisie et la connexion internet !")
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let translatedText):
+                    self.refreshScreen(data: translatedText, textView: self.translation)
+                case .failure:
+                    self.alert(title: "Erreur", message: "Une erreur est survenue, vérifier la votre saisie et la connexion internet !")
+                }
+                self.activityIndicator(activityIndicator: self.translateActivityIndicator, button: self.translateButton, showActivityIndicator: false)
             }
-            self.activityIndicator(activityIndicator: self.translateActivityIndicator, button: self.translateButton, showActivityIndicator: false)
         }
     }
     

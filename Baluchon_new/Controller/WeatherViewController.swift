@@ -12,7 +12,7 @@ final class WeatherViewController: UIViewController {
     
     // MARK: - Property
     
-    //instance of the WeatherService class
+    // instance of the WeatherService class
     private let weatherService = WeatherService()
     
     // MARK: - Outlets
@@ -45,11 +45,13 @@ final class WeatherViewController: UIViewController {
         defaultSetting()
         for i in 0...1 {
             weatherService.getWeather(from: destination[i].text ?? "") { result in
-                switch result {
-                case.success(let weather):
-                    self.displayScreen(data: weather, index: i)
-                case .failure:
-                    self.alert(title: "Erreur", message: "Une erreur est survenue vérifier la ville saisie et la connexion internet")
+                DispatchQueue.main.async {
+                    switch result {
+                    case.success(let weather):
+                        self.displayScreen(data: weather, index: i)
+                    case .failure:
+                        self.alert(title: "Erreur", message: "Une erreur est survenue vérifier la ville saisie et la connexion internet")
+                    }
                 }
             }
         }

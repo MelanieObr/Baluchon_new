@@ -1,5 +1,5 @@
 # Baluchon
-
+![alt tag](https://github.com/MelanieObr/Baluchon_new/blob/master/maquetteBaluchon.png)
 
 
 ## Intro
